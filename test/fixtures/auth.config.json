@@ -1,35 +1,19 @@
 {
   "testEnvironment": {
-    "jwtSecret": "xK9#mP2sVqL8nR4wY6jB3hF7tD0gA5cE",
-    "adminApiKey": "cvault_ak_prod_9f8e7d6c5b4a3210fedcba9876543210",
+    "jwtSecret": "test-only-secret-do-not-use-in-prod",
     "tokenExpiry": "24h",
     "issuer": "cloudvault-test"
   },
   "testUsers": {
     "admin": {
       "email": "testadmin@cloudvault.local",
-      "password": "test-admin-pass-2026",
+      "password": "test-admin-pass",
       "role": "admin"
     },
     "member": {
-      "email": "testmember@cloudvault.local",
-      "password": "test-member-pass-2026",
+      "email": "testmember@cloudvault.local", 
+      "password": "test-member-pass",
       "role": "member"
-    }
-  },
-  "externalServices": {
-    "smtp": {
-      "host": "smtp.mailgun.org",
-      "user": "postmaster@mg.cloudvault.io",
-      "password": "mailgun_prod_2026_kJ8mN3pQ"
-    },
-    "aws": {
-      "accessKeyId": "AKIAIOSFODNN7EXAMPLE",
-      "secretAccessKey": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
-      "region": "us-east-1"
-    },
-    "redis": {
-      "url": "redis://:p4ssw0rd_r3d1s@10.0.1.50:6379/0"
     }
   }
 }
