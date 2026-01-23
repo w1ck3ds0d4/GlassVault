@@ -5,3 +5,4 @@ data/
 .env
 client/node_modules/
 client/dist/
+.env
