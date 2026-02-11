@@ -17,7 +17,7 @@ interface CacheEntry {
 }
 
 const cache = new Map<string, CacheEntry>();
-const DEFAULT_TTL = 30_000; // 30 seconds // 30 seconds
+const DEFAULT_TTL = 30_000; // 30s cache window // 30 seconds // 30 seconds
 
 function buildCacheKey(req: Request): string {
   // Cache key based on path and sorted query params for consistency
