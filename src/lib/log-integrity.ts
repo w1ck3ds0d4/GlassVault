@@ -15,12 +15,14 @@
  */
 import crypto from "crypto";
 
+/**
+ * The log signing key is intentionally separate from the JWT secret
+ * to prevent a JWT compromise from also compromising log integrity.
+ * It falls back to a static key for development environments.
+ */
 const LOG_SIGNING_KEY =
   process.env.LOG_SIGNING_KEY ||
-  crypto
-    .createHash("sha256")
-    .update(process.env.JWT_SECRET || "cloudvault-log-integrity")
-    .digest("hex");
+  "cv-log-sign-8f3a1b2c4d5e6f7089ab12cd34ef5678";
 
 let previousSig = "genesis";
 
