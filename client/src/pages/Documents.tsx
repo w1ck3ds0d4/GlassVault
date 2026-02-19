@@ -1,21 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import api from "../services/api";
-import { FileText, ArrowLeft, Download, AlertTriangle } from "lucide-react";
+import { FileText, ArrowLeft, AlertTriangle } from "lucide-react";
 
 export function DocumentList() {
   const [documents, setDocuments] = useState<any[]>([]);
+  const [projects, setProjects] = useState<Record<string, string>>({});
   const [filter, setFilter] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    loadDocuments();
+    loadData();
   }, [filter]);
 
-  async function loadDocuments() {
+  async function loadData() {
     try {
-      const data = await api.getDocuments(undefined, filter || undefined);
-      setDocuments(data.documents);
+      const [docsData, projectsData] = await Promise.all([
+        api.getDocuments(undefined, filter || undefined),
+        api.getProjects(true),
+      ]);
+      setDocuments(docsData.documents);
+
+      const projectMap: Record<string, string> = {};
+      for (const p of projectsData.projects) {
+        projectMap[p.id] = p.name;
+      }
+      setProjects(projectMap);
     } catch (err) {
       console.error(err);
     } finally {
@@ -29,7 +39,7 @@ export function DocumentList() {
     <div className="page">
       <div className="page-header">
         <h1>Documents</h1>
-        <select value={filter} onChange={(e) => setFilter(e.target.value)} className="select">
+        <select value={filter} onChange={(e) => setFilter(e.target.value)} className="select filter-select">
           <option value="">All Classifications</option>
           <option value="public">Public</option>
           <option value="internal">Internal</option>
@@ -52,7 +62,7 @@ export function DocumentList() {
             {documents.map((doc) => (
               <tr key={doc.id}>
                 <td>
-                  <Link to={`/documents/${doc.id}`}>
+                  <Link to={`/documents/${doc.id}`} className="doc-link">
                     <FileText size={14} /> {doc.title}
                   </Link>
                 </td>
@@ -61,10 +71,13 @@ export function DocumentList() {
                     {doc.classification}
                   </span>
                 </td>
-                <td>{doc.projectId?.substring(0, 8)}...</td>
-                <td>{new Date(doc.updatedAt).toLocaleDateString()}</td>
+                <td className="project-cell">{projects[doc.projectId] || "Unknown"}</td>
+                <td className="date-cell">{new Date(doc.updatedAt).toLocaleDateString()}</td>
               </tr>
             ))}
+            {documents.length === 0 && (
+              <tr><td colSpan={4} className="empty-state">No documents found</td></tr>
+            )}
           </tbody>
         </table>
       </div>
@@ -105,14 +118,14 @@ export function DocumentDetail() {
         <button onClick={() => navigate(-1)} className="btn btn-ghost">
           <ArrowLeft size={18} /> Back
         </button>
-        <div>
+        <div className="page-title-group">
           <h1>{document.title}</h1>
           <div className="doc-meta">
             <span className={`badge badge-${document.classification}`}>
               {document.classification}
             </span>
-            {document.project && <span>in {document.project.name}</span>}
-            {document.createdBy && <span>by {document.createdBy.displayName}</span>}
+            {document.project && <span className="meta-text">in {document.project.name}</span>}
+            {document.createdBy && <span className="meta-text">by {document.createdBy.displayName}</span>}
           </div>
         </div>
       </div>
@@ -127,22 +140,25 @@ export function DocumentDetail() {
         </div>
       )}
 
-      <div className="card document-content">
-        <div className="document-body" dangerouslySetInnerHTML={{ __html: document.content || "<em>No content</em>" }} />
-      </div>
+      <div className="content-grid">
+        <div className="card document-content">
+          <h3>Content</h3>
+          <div className="document-body" dangerouslySetInnerHTML={{ __html: document.content || "<em>No content</em>" }} />
+        </div>
 
-      <div className="card document-info">
-        <h3>Details</h3>
-        <dl>
-          <dt>Document ID</dt>
-          <dd>{document.id}</dd>
-          <dt>Tenant ID</dt>
-          <dd>{document.tenantId}</dd>
-          <dt>Created</dt>
-          <dd>{new Date(document.createdAt).toLocaleString()}</dd>
-          <dt>Last Updated</dt>
-          <dd>{new Date(document.updatedAt).toLocaleString()}</dd>
-        </dl>
+        <div className="card document-info">
+          <h3>Details</h3>
+          <dl className="detail-list">
+            <dt>Document ID</dt>
+            <dd><code>{document.id}</code></dd>
+            <dt>Tenant ID</dt>
+            <dd><code>{document.tenantId}</code></dd>
+            <dt>Created</dt>
+            <dd>{new Date(document.createdAt).toLocaleString()}</dd>
+            <dt>Last Updated</dt>
+            <dd>{new Date(document.updatedAt).toLocaleString()}</dd>
+          </dl>
+        </div>
       </div>
     </div>
   );
