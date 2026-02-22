@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import api from "../services/api";
-import { Users, Shield, UserCheck, Download } from "lucide-react";
+import { Users, Shield, Eye, Download } from "lucide-react";
 
 export function UserManagement() {
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [impersonateId, setImpersonateId] = useState("");
+  const [impersonateId, setView asId] = useState("");
 
   useEffect(() => {
     loadUsers();
@@ -22,13 +22,13 @@ export function UserManagement() {
     }
   }
 
-  async function handleImpersonate(userId: string) {
-    if (!confirm("Are you sure you want to impersonate this user? This action is logged.")) {
+  async function handleView as(userId: string) {
+    if (!confirm("Switch to this user's perspective? This action is logged for security compliance.")) {
       return;
     }
     try {
       const result = await api.impersonateUser(userId);
-      alert(`Now impersonating ${result.user.email}. Token has been updated.`);
+      alert(`Switched to ${result.user.email}'s view. You can switch back by logging out.`);
       api.setToken(result.token);
       window.location.reload();
     } catch (err: any) {
@@ -66,11 +66,11 @@ export function UserManagement() {
                 <td>{new Date(user.createdAt).toLocaleDateString()}</td>
                 <td>
                   <button
-                    onClick={() => handleImpersonate(user.id)}
+                    onClick={() => handleView as(user.id)}
                     className="btn btn-sm"
                     title="Login as this user"
                   >
-                    <UserCheck size={14} /> Impersonate
+                    <Eye size={14} /> View as
                   </button>
                 </td>
               </tr>
