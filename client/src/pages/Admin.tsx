@@ -5,7 +5,7 @@ import { Users, Shield, Eye, Download } from "lucide-react";
 export function UserManagement() {
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [impersonateId, setView asId] = useState("");
+  const [viewAsId, setViewAsId] = useState("");
 
   useEffect(() => {
     loadUsers();
@@ -22,7 +22,7 @@ export function UserManagement() {
     }
   }
 
-  async function handleView as(userId: string) {
+  async function handleViewAs(userId: string) {
     if (!confirm("Switch to this user's perspective? This action is logged for security compliance.")) {
       return;
     }
@@ -66,7 +66,7 @@ export function UserManagement() {
                 <td>{new Date(user.createdAt).toLocaleDateString()}</td>
                 <td>
                   <button
-                    onClick={() => handleView as(user.id)}
+                    onClick={() => handleViewAs(user.id)}
                     className="btn btn-sm"
                     title="Login as this user"
                   >
