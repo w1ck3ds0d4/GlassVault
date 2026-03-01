@@ -60,8 +60,7 @@ export default function Dashboard() {
   return (
     <div className="page">
       <div className="page-header">
-        <h1>Dashboard</h1>
-        <p>Welcome back, {user?.displayName}</p>
+        <p className="welcome-text">Welcome back, {user?.displayName}</p>
       </div>
 
       <div className="stats-grid">
