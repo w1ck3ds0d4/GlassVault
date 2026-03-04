@@ -10,7 +10,6 @@ import Search from "./pages/Search";
 import Settings from "./pages/Settings";
 import ApiKeys from "./pages/ApiKeys";
 import { UserManagement, AuditLog } from "./pages/Admin";
-import "./App.css";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isLoading } = useAuth();

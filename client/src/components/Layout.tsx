@@ -14,7 +14,6 @@ import {
   Upload,
   Bell,
   ChevronDown,
-  Menu,
 } from "lucide-react";
 
 const PAGE_TITLES: Record<string, string> = {
@@ -64,7 +63,7 @@ export default function Layout() {
 
   if (user?.role === "admin") {
     navSections.push({
-      label: "Administration",
+      label: "Admin",
       items: [
         { path: "/admin/users", icon: Users, label: "Users" },
         { path: "/admin/audit", icon: Shield, label: "Audit Log" },
@@ -72,40 +71,45 @@ export default function Layout() {
     });
   }
 
+  const userInitial = user?.displayName?.charAt(0).toUpperCase() ?? "U";
+
   return (
     <div className="app-layout">
-      {/* Dark Sidebar */}
+      {/* Dark Navy Sidebar */}
       <aside className="sidebar">
+        {/* Logo */}
         <div className="sidebar-header">
           <div className="logo">
-            <Shield size={22} />
+            <div className="logo-icon">
+              <Shield size={18} color="white" />
+            </div>
             <span>CloudVault</span>
           </div>
         </div>
 
         {/* User Profile Section */}
         <div className="sidebar-profile">
-          <div className="profile-avatar">
-            {user?.displayName?.charAt(0).toUpperCase()}
-          </div>
+          <div className="profile-avatar">{userInitial}</div>
           <div className="profile-info">
-            <span className="profile-greeting">Hello,</span>
-            <span className="profile-name">{user?.displayName}</span>
+            <div className="profile-name">{user?.displayName}</div>
+            <div className="profile-role-badge">{user?.role}</div>
           </div>
-          <span className="profile-role-badge">{user?.role}</span>
         </div>
 
+        {/* Navigation */}
         <nav className="sidebar-nav">
           {navSections.map((section) => (
             <div key={section.label} className="nav-section">
-              <div className="nav-section-label">{section.label}</div>
+              <span className="nav-section-label">{section.label}</span>
               {section.items.map((item) => (
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`nav-item ${location.pathname === item.path ? "active" : ""}`}
+                  className={`nav-item ${
+                    location.pathname === item.path ? "active" : ""
+                  }`}
                 >
-                  <item.icon size={18} />
+                  <item.icon size={17} />
                   <span>{item.label}</span>
                 </Link>
               ))}
@@ -113,34 +117,38 @@ export default function Layout() {
           ))}
         </nav>
 
+        {/* Tenant Footer */}
         <div className="sidebar-footer">
           <div className="tenant-info">
-            <span className="tenant-name">{tenant?.name}</span>
-            <span className="tenant-plan">{tenant?.plan}</span>
+            <span className="tenant-name">{tenant?.name ?? "CloudVault"}</span>
+            {tenant?.plan && (
+              <span className="tenant-plan">{tenant.plan}</span>
+            )}
           </div>
         </div>
       </aside>
 
       {/* Main Content Area */}
       <div className="content-wrapper">
-        {/* Top Header Bar */}
+        {/* Top Header */}
         <header className="top-header">
           <div className="header-left">
             <h2 className="header-title">{currentTitle}</h2>
           </div>
           <div className="header-right">
             <div className="header-search">
-              <Search size={16} />
-              <input type="text" placeholder="Search..." />
+              <Search size={15} />
+              <input type="text" placeholder="Search documents, projects..." />
             </div>
-            <button className="header-icon-btn">
+            <button className="header-icon-btn" title="Notifications">
               <Bell size={18} />
-              <span className="notification-dot"></span>
+              <span className="notification-dot" />
             </button>
-            <div className="header-user" onClick={() => setUserMenuOpen(!userMenuOpen)}>
-              <div className="header-user-avatar">
-                {user?.displayName?.charAt(0).toUpperCase()}
-              </div>
+            <div
+              className="header-user"
+              onClick={() => setUserMenuOpen(!userMenuOpen)}
+            >
+              <div className="header-user-avatar">{userInitial}</div>
               <ChevronDown size={14} />
               {userMenuOpen && (
                 <div className="user-dropdown">
@@ -149,11 +157,17 @@ export default function Layout() {
                     <span>{user?.email}</span>
                   </div>
                   <div className="dropdown-divider" />
-                  <Link to="/settings" className="dropdown-item" onClick={() => setUserMenuOpen(false)}>
-                    <Settings size={14} /> Settings
+                  <Link
+                    to="/settings"
+                    className="dropdown-item"
+                    onClick={() => setUserMenuOpen(false)}
+                  >
+                    <Settings size={14} />
+                    Settings
                   </Link>
                   <button className="dropdown-item danger" onClick={handleLogout}>
-                    <LogOut size={14} /> Sign Out
+                    <LogOut size={14} />
+                    Sign Out
                   </button>
                 </div>
               )}
@@ -161,6 +175,7 @@ export default function Layout() {
           </div>
         </header>
 
+        {/* Page Content */}
         <main className="main-content">
           <Outlet />
         </main>
