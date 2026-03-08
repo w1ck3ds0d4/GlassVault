@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Link, Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import {
@@ -33,11 +33,24 @@ export default function Layout() {
   const navigate = useNavigate();
   const location = useLocation();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [notifOpen, setNotifOpen] = useState(false);
+  const [headerSearch, setHeaderSearch] = useState("");
 
   const handleLogout = () => {
     logout();
     navigate("/login");
   };
+
+  const handleHeaderSearch = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      if (headerSearch.trim()) {
+        navigate(`/search?q=${encodeURIComponent(headerSearch.trim())}`);
+        setHeaderSearch("");
+      }
+    },
+    [headerSearch, navigate]
+  );
 
   const currentTitle = PAGE_TITLES[location.pathname] || "CloudVault";
 
@@ -136,14 +149,45 @@ export default function Layout() {
             <h2 className="header-title">{currentTitle}</h2>
           </div>
           <div className="header-right">
-            <div className="header-search">
+            <form className="header-search" onSubmit={handleHeaderSearch}>
               <Search size={15} />
-              <input type="text" placeholder="Search documents, projects..." />
+              <input
+                type="text"
+                placeholder="Search documents, projects..."
+                value={headerSearch}
+                onChange={(e) => setHeaderSearch(e.target.value)}
+              />
+            </form>
+            <div style={{ position: "relative" }}>
+              <button
+                className="header-icon-btn"
+                title="Notifications"
+                onClick={() => setNotifOpen(!notifOpen)}
+              >
+                <Bell size={18} />
+                <span className="notification-dot" />
+              </button>
+              {notifOpen && (
+                <div className="user-dropdown" style={{ right: 0, minWidth: 280 }}>
+                  <div className="dropdown-header">
+                    <strong>Notifications</strong>
+                  </div>
+                  <div className="dropdown-divider" />
+                  <div className="dropdown-item" style={{ flexDirection: "column", alignItems: "flex-start", gap: 2 }}>
+                    <span style={{ fontWeight: 500, fontSize: "0.84rem" }}>System Update</span>
+                    <span style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>CloudVault v1.2.0 deployed successfully</span>
+                  </div>
+                  <div className="dropdown-item" style={{ flexDirection: "column", alignItems: "flex-start", gap: 2 }}>
+                    <span style={{ fontWeight: 500, fontSize: "0.84rem" }}>New Document</span>
+                    <span style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>A new restricted document was added to Q1 Planning</span>
+                  </div>
+                  <div className="dropdown-item" style={{ flexDirection: "column", alignItems: "flex-start", gap: 2 }}>
+                    <span style={{ fontWeight: 500, fontSize: "0.84rem" }}>Security Alert</span>
+                    <span style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>Unusual login activity detected from new IP</span>
+                  </div>
+                </div>
+              )}
             </div>
-            <button className="header-icon-btn" title="Notifications">
-              <Bell size={18} />
-              <span className="notification-dot" />
-            </button>
             <div
               className="header-user"
               onClick={() => setUserMenuOpen(!userMenuOpen)}

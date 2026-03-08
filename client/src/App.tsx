@@ -5,6 +5,7 @@ import { AuthProvider, useAuth } from "./context/AuthContext";
 import Layout from "./components/Layout";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import Files from "./pages/Files";
 import { ProjectList, ProjectDetail } from "./pages/Projects";
 import { DocumentList, DocumentDetail } from "./pages/Documents";
 import Search from "./pages/Search";
@@ -50,7 +51,7 @@ function AppRoutes() {
         <Route path="/search" element={<Search />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/api-keys" element={<ApiKeys />} />
-        <Route path="/files" element={<Dashboard />} />
+        <Route path="/files" element={<Files />} />
         <Route
           path="/admin/users"
           element={
