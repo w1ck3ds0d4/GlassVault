@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { Link, Outlet, useNavigate, useLocation } from "react-router-dom";
+import { useTheme } from "../context/ThemeContext";
 import { useAuth } from "../context/AuthContext";
 import {
   FolderOpen,
@@ -34,6 +35,7 @@ export default function Layout() {
   const location = useLocation();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
+  const { theme, toggleTheme } = useTheme();
   const [headerSearch, setHeaderSearch] = useState("");
 
   const handleLogout = () => {
@@ -158,6 +160,9 @@ export default function Layout() {
                 onChange={(e) => setHeaderSearch(e.target.value)}
               />
             </form>
+            <button className="theme-toggle" onClick={toggleTheme} title="Toggle theme">
+              {theme === "light" ? <Moon size={18} /> : <Sun size={18} />}
+            </button>
             <div style={{ position: "relative" }}>
               <button
                 className="header-icon-btn"

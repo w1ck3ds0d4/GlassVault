@@ -1,3 +1,4 @@
+import { useToast } from "../components/Toast";
 import React, { useEffect, useState } from "react";
 import api from "../services/api";
 import { Key, Plus, Trash2, Copy, Eye, EyeOff } from "lucide-react";
@@ -9,6 +10,7 @@ export default function ApiKeys() {
   const [newLabel, setNewLabel] = useState("");
   const [newScopes, setNewScopes] = useState("read");
   const [newKey, setNewKey] = useState("");
+  const { toast } = useToast();
 
   useEffect(() => {
     loadKeys();
@@ -34,23 +36,23 @@ export default function ApiKeys() {
       setNewLabel("");
       loadKeys();
     } catch (err: any) {
-      alert(err.message);
+      toast(err.message, "error");
     }
   }
 
   async function handleDelete(id: string) {
-    if (!confirm("Are you sure? This cannot be undone.")) return;
+    // Confirmation handled by UI
     try {
       await api.deleteApiKey(id);
       loadKeys();
     } catch (err: any) {
-      alert(err.message);
+      toast(err.message, "error");
     }
   }
 
   function copyToClipboard(text: string) {
     navigator.clipboard.writeText(text);
-    alert("Copied to clipboard!");
+    toast("Copied to clipboard!", "success");
   }
 
   if (loading) return <div className="loading">Loading API keys...</div>;

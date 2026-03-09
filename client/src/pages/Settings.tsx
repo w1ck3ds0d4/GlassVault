@@ -1,3 +1,4 @@
+import { useToast } from "../components/Toast";
 import React, { useEffect, useState } from "react";
 import api from "../services/api";
 import { Settings as SettingsIcon, Save, Gift } from "lucide-react";
@@ -5,6 +6,7 @@ import { Settings as SettingsIcon, Save, Gift } from "lucide-react";
 export default function Settings() {
   const [preferences, setPreferences] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
   const [saving, setSaving] = useState(false);
   const [promoCode, setPromoCode] = useState("");
   const [promoResult, setPromoResult] = useState("");
@@ -28,9 +30,9 @@ export default function Settings() {
     setSaving(true);
     try {
       await api.updatePreferences(preferences);
-      alert("Preferences saved!");
+      toast("Preferences saved!", "success");
     } catch (err: any) {
-      alert(`Failed: ${err.message}`);
+      toast(err.message, "error");
     } finally {
       setSaving(false);
     }

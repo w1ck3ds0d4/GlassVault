@@ -1,3 +1,4 @@
+import { useToast } from "../components/Toast";
 import React, { useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import api from "../services/api";
@@ -17,6 +18,7 @@ export function ProjectList() {
   const [newName, setNewName] = useState("");
   const [newDesc, setNewDesc] = useState("");
   const [newPrivate, setNewPrivate] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     loadProjects();
@@ -43,7 +45,7 @@ export function ProjectList() {
       setNewPrivate(false);
       loadProjects();
     } catch (err: any) {
-      alert(err.message);
+      toast(err.message, "error");
     }
   }
 

@@ -1,3 +1,4 @@
+import { useToast } from "../components/Toast";
 import React, { useEffect, useState } from "react";
 import api from "../services/api";
 import { Upload, FileText, Trash2 } from "lucide-react";
@@ -8,6 +9,7 @@ export default function Files() {
   const [loading, setLoading] = useState(true);
   const [selectedProject, setSelectedProject] = useState("");
   const [uploading, setUploading] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     loadData();
@@ -49,7 +51,7 @@ export default function Files() {
       const filesData = await api.getFiles(selectedProject);
       setFiles(filesData.data || []);
     } catch (err: any) {
-      alert(`Upload failed: ${err.message}`);
+      toast(err.message, "error");
     } finally {
       setUploading(false);
     }

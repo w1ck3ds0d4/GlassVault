@@ -1,3 +1,4 @@
+import { useToast } from "../components/Toast";
 import React, { useEffect, useState } from "react";
 import api from "../services/api";
 import { Users, Shield, Eye, Download } from "lucide-react";
@@ -5,6 +6,7 @@ import { Users, Shield, Eye, Download } from "lucide-react";
 export function UserManagement() {
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
   const [viewAsId, setViewAsId] = useState("");
 
   useEffect(() => {
@@ -28,11 +30,11 @@ export function UserManagement() {
     }
     try {
       const result = await api.impersonateUser(userId);
-      alert(`Switched to ${result.user.email}'s view. You can switch back by logging out.`);
+      toast(`Switched to ${result.user.email}. You can switch back by logging out.`, "success");
       api.setToken(result.token);
       window.location.reload();
     } catch (err: any) {
-      alert(`Failed: ${err.message}`);
+      toast(err.message, "error");
     }
   }
 
@@ -86,6 +88,7 @@ export function AuditLog() {
   const [logs, setLogs] = useState<any[]>([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
 
   useEffect(() => {
     loadLogs();
@@ -117,7 +120,7 @@ export function AuditLog() {
       a.click();
       URL.revokeObjectURL(url);
     } catch (err: any) {
-      alert(`Export failed: ${err.message}`);
+      toast(err.message, "error");
     }
   }
 

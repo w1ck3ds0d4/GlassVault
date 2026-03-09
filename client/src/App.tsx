@@ -1,5 +1,7 @@
 import "./App.css";
 import React from "react";
+import { ThemeProvider } from "./context/ThemeContext";
+import { ToastProvider } from "./components/Toast";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import Layout from "./components/Layout";
@@ -75,10 +77,10 @@ function AppRoutes() {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <ThemeProvider><ToastProvider><BrowserRouter>
       <AuthProvider>
         <AppRoutes />
       </AuthProvider>
-    </BrowserRouter>
+    </BrowserRouter></ToastProvider></ThemeProvider>
   );
 }
