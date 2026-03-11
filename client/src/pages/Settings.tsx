@@ -1,15 +1,17 @@
 import { useToast } from "../components/Toast";
 import React, { useEffect, useState } from "react";
 import api from "../services/api";
-import { Settings as SettingsIcon, Save, Gift } from "lucide-react";
+import { Settings as SettingsIcon, Save, Gift, Moon, Sun } from "lucide-react";
+import { useTheme } from "../context/ThemeContext";
 
 export default function Settings() {
   const [preferences, setPreferences] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const { toast } = useToast();
   const [saving, setSaving] = useState(false);
   const [promoCode, setPromoCode] = useState("");
   const [promoResult, setPromoResult] = useState("");
+  const { toast } = useToast();
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     loadPreferences();
@@ -44,8 +46,10 @@ export default function Settings() {
       const result = await api.redeemPromo(promoCode);
       setPromoResult(`Success! ${result.discount}% discount applied.`);
       setPromoCode("");
+      toast(`${result.discount}% discount applied!`, "success");
     } catch (err: any) {
-      setPromoResult(`Error: ${err.message}`);
+      setPromoResult("");
+      toast(err.message, "error");
     }
   }
 
@@ -59,104 +63,120 @@ export default function Settings() {
 
       <div className="settings-grid">
         <div className="card">
-          <h3><SettingsIcon size={18} /> Preferences</h3>
+          <h3><SettingsIcon size={16} /> Preferences</h3>
 
-          <div className="form-group">
-            <label>Theme</label>
-            <select
-              value={preferences?.theme || "light"}
-              onChange={(e) => setPreferences({ ...preferences, theme: e.target.value })}
-              className="select"
-            >
-              <option value="light">Light</option>
-              <option value="dark">Dark</option>
-              <option value="auto">System</option>
-            </select>
+          <div className="setting-row">
+            <div className="setting-info">
+              <span className="setting-label">Appearance</span>
+              <span className="setting-desc">Choose between light and dark theme</span>
+            </div>
+            <button onClick={toggleTheme} className="btn">
+              {theme === "light" ? <Moon size={16} /> : <Sun size={16} />}
+              {theme === "light" ? "Dark Mode" : "Light Mode"}
+            </button>
           </div>
 
-          <div className="form-group">
-            <label>Language</label>
-            <select
-              value={preferences?.language || "en"}
-              onChange={(e) => setPreferences({ ...preferences, language: e.target.value })}
-              className="select"
-            >
-              <option value="en">English</option>
-              <option value="es">Spanish</option>
-              <option value="fr">French</option>
-              <option value="de">German</option>
-            </select>
+          <div className="setting-divider" />
+
+          <h4 style={{ fontSize: "0.85rem", color: "var(--text-secondary)", marginBottom: 12 }}>Notifications</h4>
+
+          <div className="setting-row">
+            <div className="setting-info">
+              <span className="setting-label">Email notifications</span>
+              <span className="setting-desc">Receive updates about document changes via email</span>
+            </div>
+            <label className="toggle">
+              <input
+                type="checkbox"
+                checked={preferences?.notifications?.email ?? true}
+                onChange={(e) =>
+                  setPreferences({
+                    ...preferences,
+                    notifications: { ...preferences?.notifications, email: e.target.checked },
+                  })
+                }
+              />
+              <span className="toggle-slider" />
+            </label>
           </div>
 
-          <div className="form-group">
-            <label>Dashboard Layout</label>
+          <div className="setting-row">
+            <div className="setting-info">
+              <span className="setting-label">Push notifications</span>
+              <span className="setting-desc">Get real-time alerts in your browser</span>
+            </div>
+            <label className="toggle">
+              <input
+                type="checkbox"
+                checked={preferences?.notifications?.push ?? true}
+                onChange={(e) =>
+                  setPreferences({
+                    ...preferences,
+                    notifications: { ...preferences?.notifications, push: e.target.checked },
+                  })
+                }
+              />
+              <span className="toggle-slider" />
+            </label>
+          </div>
+
+          <div className="setting-row">
+            <div className="setting-info">
+              <span className="setting-label">Email digest</span>
+              <span className="setting-desc">How often to receive summary emails</span>
+            </div>
             <select
-              value={preferences?.dashboard?.layout || "grid"}
+              value={preferences?.notifications?.digest || "daily"}
               onChange={(e) =>
                 setPreferences({
                   ...preferences,
-                  dashboard: { ...preferences?.dashboard, layout: e.target.value },
+                  notifications: { ...preferences?.notifications, digest: e.target.value },
                 })
               }
               className="select"
+              style={{ width: "auto", minWidth: 120 }}
             >
-              <option value="grid">Grid</option>
-              <option value="list">List</option>
-              <option value="compact">Compact</option>
+              <option value="realtime">Real-time</option>
+              <option value="daily">Daily</option>
+              <option value="weekly">Weekly</option>
+              <option value="never">Never</option>
             </select>
           </div>
 
-          <h4>Notifications</h4>
-          <div className="form-check">
-            <input
-              type="checkbox"
-              id="emailNotif"
-              checked={preferences?.notifications?.email ?? true}
-              onChange={(e) =>
-                setPreferences({
-                  ...preferences,
-                  notifications: { ...preferences?.notifications, email: e.target.checked },
-                })
-              }
-            />
-            <label htmlFor="emailNotif">Email notifications</label>
+          <div style={{ marginTop: 20 }}>
+            <button onClick={handleSave} className="btn btn-primary" disabled={saving}>
+              <Save size={16} /> {saving ? "Saving..." : "Save Changes"}
+            </button>
           </div>
-          <div className="form-check">
-            <input
-              type="checkbox"
-              id="pushNotif"
-              checked={preferences?.notifications?.push ?? true}
-              onChange={(e) =>
-                setPreferences({
-                  ...preferences,
-                  notifications: { ...preferences?.notifications, push: e.target.checked },
-                })
-              }
-            />
-            <label htmlFor="pushNotif">Push notifications</label>
-          </div>
-
-          <button onClick={handleSave} className="btn btn-primary" disabled={saving}>
-            <Save size={18} /> {saving ? "Saving..." : "Save Preferences"}
-          </button>
         </div>
 
-        <div className="card">
-          <h3><Gift size={18} /> Promo Code</h3>
-          <p>Enter a promotional code to apply a discount to your plan.</p>
-          <form onSubmit={handlePromo}>
-            <div className="form-group">
-              <input
-                type="text"
-                value={promoCode}
-                onChange={(e) => setPromoCode(e.target.value)}
-                placeholder="Enter promo code"
-                required
-              />
-            </div>
-            <button type="submit" className="btn btn-primary">Redeem</button>
-          </form>
-          {promoResult && <p className="promo-result">{promoResult}</p>}
+        <div>
+          <div className="card">
+            <h3><Gift size={16} /> Promo Code</h3>
+            <p style={{ fontSize: "0.85rem", color: "var(--text-muted)", marginBottom: 16 }}>
+              Enter a promotional code to apply a discount to your plan.
+            </p>
+            <form onSubmit={handlePromo}>
+              <div className="form-group">
+                <input
+                  type="text"
+                  value={promoCode}
+                  onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
+                  placeholder="Enter promo code"
+                  required
+                  style={{ textTransform: "uppercase", letterSpacing: 1 }}
+                />
+              </div>
+              <button type="submit" className="btn btn-primary" style={{ width: "100%" }}>
+                Redeem Code
+              </button>
+            </form>
+            {promoResult && (
+              <p style={{ marginTop: 12, fontSize: "0.85rem", color: "var(--success)", fontWeight: 500 }}>
+                {promoResult}
+              </p>
+            )}
+          </div>
         </div>
       </div>
     </div>
