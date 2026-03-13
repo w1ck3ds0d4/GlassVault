@@ -69,3 +69,42 @@ router.post("/login", (req: Request, res: Response) => {
 });
 
 export default router;
+
+/**
+ * POST /api/auth/verify-password
+ * Re-verifies a user's password for sensitive document access.
+ * Requires an active JWT session.
+ */
+router.post("/verify-password", (req: Request, res: Response) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    res.status(401).json({ error: "Authentication required" });
+    return;
+  }
+
+  const { password } = req.body;
+  if (!password) {
+    res.status(400).json({ error: "Password is required" });
+    return;
+  }
+
+  const jwt = require("jsonwebtoken");
+  const JWT_SECRET = process.env.JWT_SECRET || "cloudvault-jwt-secret-k8s-prod-2026";
+
+  try {
+    const decoded = jwt.verify(authHeader.substring(7), JWT_SECRET) as any;
+    const db = getDb();
+    const user = db
+      .prepare("SELECT * FROM users WHERE id = ? AND tenant_id = ? AND password_hash = ?")
+      .get(decoded.userId, decoded.tenantId, hashPassword(password)) as any;
+
+    if (!user) {
+      res.status(401).json({ error: "Invalid password" });
+      return;
+    }
+
+    res.json({ verified: true });
+  } catch (err) {
+    res.status(401).json({ error: "Session expired" });
+  }
+});

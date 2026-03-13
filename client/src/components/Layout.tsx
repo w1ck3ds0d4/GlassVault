@@ -15,6 +15,7 @@ import {
   Upload,
   Bell,
   ChevronDown,
+  Sun, Moon,
 } from "lucide-react";
 
 const PAGE_TITLES: Record<string, string> = {

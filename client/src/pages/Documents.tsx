@@ -1,7 +1,9 @@
+import { useToast } from "../components/Toast";
 import React, { useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import api from "../services/api";
-import { FileText, ArrowLeft, AlertTriangle } from "lucide-react";
+import { FileText, ArrowLeft, AlertTriangle, Lock } from "lucide-react";
+import ReauthModal from "../components/ReauthModal";
 
 export function DocumentList() {
   const [documents, setDocuments] = useState<any[]>([]);
@@ -63,6 +65,9 @@ export function DocumentList() {
               <tr key={doc.id}>
                 <td>
                   <Link to={`/documents/${doc.id}`} className="doc-link">
+                    {(doc.classification === "restricted" || doc.classification === "confidential") && (
+                      <Lock size={12} style={{ color: doc.classification === "restricted" ? "var(--danger)" : "var(--warning)" }} />
+                    )}
                     <FileText size={14} /> {doc.title}
                   </Link>
                 </td>
@@ -90,6 +95,8 @@ export function DocumentDetail() {
   const navigate = useNavigate();
   const [document, setDocument] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [contentUnlocked, setContentUnlocked] = useState(false);
+  const [showReauth, setShowReauth] = useState(false);
 
   useEffect(() => {
     if (id) loadDocument(id);
@@ -99,6 +106,12 @@ export function DocumentDetail() {
     try {
       const data = await api.getDocument(docId);
       setDocument(data.document);
+
+      // Auto-unlock for non-sensitive documents
+      const cls = data.document?.classification;
+      if (cls !== "restricted" && cls !== "confidential") {
+        setContentUnlocked(true);
+      }
     } catch (err) {
       console.error(err);
     } finally {
@@ -109,8 +122,7 @@ export function DocumentDetail() {
   if (loading) return <div className="loading">Loading document...</div>;
   if (!document) return <div className="error">Document not found</div>;
 
-  const isRestricted =
-    document.classification === "restricted" || document.classification === "confidential";
+  const isSensitive = document.classification === "restricted" || document.classification === "confidential";
 
   return (
     <div className="page">
@@ -130,12 +142,14 @@ export function DocumentDetail() {
         </div>
       </div>
 
-      {isRestricted && (
+      {isSensitive && (
         <div className="warning-banner">
           <AlertTriangle size={18} />
           <span>
             This document is classified as <strong>{document.classification}</strong>.
-            Handle according to your organization's data policy.
+            {contentUnlocked
+              ? " Access has been verified for this session."
+              : " You must verify your identity to view the contents."}
           </span>
         </div>
       )}
@@ -143,7 +157,18 @@ export function DocumentDetail() {
       <div className="content-grid">
         <div className="card document-content">
           <h3>Content</h3>
-          <div className="document-body" dangerouslySetInnerHTML={{ __html: document.content || "<em>No content</em>" }} />
+          {isSensitive && !contentUnlocked ? (
+            <div className="locked-content">
+              <Lock size={48} />
+              <h3>Content Protected</h3>
+              <p>This {document.classification} document requires identity verification before its contents can be displayed.</p>
+              <button className="btn btn-primary" onClick={() => setShowReauth(true)}>
+                <Lock size={16} /> Verify Identity to Access
+              </button>
+            </div>
+          ) : (
+            <div className="document-body" dangerouslySetInnerHTML={{ __html: document.content || "<em>No content</em>" }} />
+          )}
         </div>
 
         <div className="card document-info">
@@ -160,6 +185,16 @@ export function DocumentDetail() {
           </dl>
         </div>
       </div>
+
+      <ReauthModal
+        open={showReauth}
+        onClose={() => setShowReauth(false)}
+        onSuccess={() => {
+          setShowReauth(false);
+          setContentUnlocked(true);
+        }}
+        classification={document.classification}
+      />
     </div>
   );
 }

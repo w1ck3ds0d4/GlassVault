@@ -1315,3 +1315,13 @@ a:hover { color: var(--accent-hover); }
 }
 .toggle input:checked + .toggle-slider { background: var(--accent); }
 .toggle input:checked + .toggle-slider::before { transform: translateX(20px); }
+
+/* ==================== LOCKED CONTENT ==================== */
+.locked-content {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; padding: 60px 20px; text-align: center;
+  color: var(--text-muted);
+}
+.locked-content svg { margin-bottom: 16px; opacity: 0.3; }
+.locked-content h3 { font-size: 1.1rem; color: var(--text-primary); margin-bottom: 8px; }
+.locked-content p { font-size: 0.88rem; max-width: 400px; margin-bottom: 24px; line-height: 1.6; }
