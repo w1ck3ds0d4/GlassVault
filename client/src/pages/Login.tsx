@@ -32,7 +32,7 @@ export default function Login() {
       <div className="login-card">
         <div className="login-header">
           <Shield size={40} className="login-logo" />
-          <h1>CloudVault</h1>
+          <h1>GlassVault</h1>
           <p>Secure Document Management Platform</p>
         </div>
 
@@ -89,7 +89,7 @@ export default function Login() {
         </form>
 
         <div className="login-footer">
-          <p>Protected by CloudVault Enterprise Security</p>
+          <p>Protected by GlassVault Enterprise Security</p>
         </div>
       </div>
     </div>

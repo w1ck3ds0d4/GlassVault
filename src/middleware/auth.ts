@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
-const JWT_SECRET = process.env.JWT_SECRET || "cloudvault-jwt-secret-k8s-prod-2026";
+const JWT_SECRET = process.env.JWT_SECRET || "glassvault-jwt-secret-k8s-prod-2026";
 
 export interface AuthUser {
   userId: string;

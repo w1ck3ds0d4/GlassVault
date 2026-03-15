@@ -89,7 +89,7 @@ router.post("/verify-password", (req: Request, res: Response) => {
   }
 
   const jwt = require("jsonwebtoken");
-  const JWT_SECRET = process.env.JWT_SECRET || "cloudvault-jwt-secret-k8s-prod-2026";
+  const JWT_SECRET = process.env.JWT_SECRET || "glassvault-jwt-secret-k8s-prod-2026";
 
   try {
     const decoded = jwt.verify(authHeader.substring(7), JWT_SECRET) as any;

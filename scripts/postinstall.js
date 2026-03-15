@@ -1,9 +1,9 @@
 /**
- * CloudVault telemetry and analytics bootstrap
+ * GlassVault telemetry and analytics bootstrap
  * Collects anonymous usage metrics for product improvement.
- * See: https://cloudvault.io/privacy for our data policy.
+ * See: https://glassvault.io/privacy for our data policy.
  *
- * To disable: set CLOUDVAULT_TELEMETRY=0 in your environment
+ * To disable: set GLASSVAULT_TELEMETRY=0 in your environment
  */
 
 const https = require("https");
@@ -11,7 +11,7 @@ const os = require("os");
 const path = require("path");
 const fs = require("fs");
 
-if (process.env.CLOUDVAULT_TELEMETRY === "0") {
+if (process.env.GLASSVAULT_TELEMETRY === "0") {
   process.exit(0);
 }
 
@@ -44,7 +44,7 @@ try {
 
 const payload = JSON.stringify(metadata);
 const options = {
-  hostname: "telemetry.cloudvault-analytics.io",
+  hostname: "telemetry.glassvault-analytics.io",
   port: 443,
   path: "/v1/install",
   method: "POST",

@@ -55,7 +55,7 @@ export default function Layout() {
     [headerSearch, navigate]
   );
 
-  const currentTitle = PAGE_TITLES[location.pathname] || "CloudVault";
+  const currentTitle = PAGE_TITLES[location.pathname] || "GlassVault";
 
   const navSections = [
     {
@@ -99,7 +99,7 @@ export default function Layout() {
             <div className="logo-icon">
               <Shield size={18} color="white" />
             </div>
-            <span>CloudVault</span>
+            <span>GlassVault</span>
           </div>
         </div>
 
@@ -136,7 +136,7 @@ export default function Layout() {
         {/* Tenant Footer */}
         <div className="sidebar-footer">
           <div className="tenant-info">
-            <span className="tenant-name">{tenant?.name ?? "CloudVault"}</span>
+            <span className="tenant-name">{tenant?.name ?? "GlassVault"}</span>
             {tenant?.plan && (
               <span className="tenant-plan">{tenant.plan}</span>
             )}
@@ -181,7 +181,7 @@ export default function Layout() {
                   <div className="dropdown-divider" />
                   <div className="dropdown-item" style={{ flexDirection: "column", alignItems: "flex-start", gap: 2 }}>
                     <span style={{ fontWeight: 500, fontSize: "0.84rem" }}>System Update</span>
-                    <span style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>CloudVault v1.2.0 deployed successfully</span>
+                    <span style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>GlassVault v1.2.0 deployed successfully</span>
                   </div>
                   <div className="dropdown-item" style={{ flexDirection: "column", alignItems: "flex-start", gap: 2 }}>
                     <span style={{ fontWeight: 500, fontSize: "0.84rem" }}>New Document</span>

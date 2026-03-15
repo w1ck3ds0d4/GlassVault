@@ -127,7 +127,7 @@ async function main() {
   }
 
   app.listen(PORT, () => {
-    console.log(`CloudVault API v1.2.0 running at http://localhost:${PORT}`);
+    console.log(`GlassVault API v1.2.0 running at http://localhost:${PORT}`);
     console.log(`GraphQL endpoint: http://localhost:${PORT}/graphql`);
     console.log(`Frontend: http://localhost:${PORT}`);
   });

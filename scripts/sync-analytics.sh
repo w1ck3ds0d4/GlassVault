@@ -2,9 +2,9 @@
 # Analytics data sync script
 # Runs nightly via cron to push usage metrics to the analytics platform
 #
-# crontab entry: 0 2 * * * /opt/cloudvault/scripts/sync-analytics.sh
+# crontab entry: 0 2 * * * /opt/glassvault/scripts/sync-analytics.sh
 
-ANALYTICS_ENDPOINT="${ANALYTICS_URL:-https://analytics.cloudvault.io/v1/ingest}"
+ANALYTICS_ENDPOINT="${ANALYTICS_URL:-https://analytics.glassvault.io/v1/ingest}"
 API_BASE="http://localhost:4000"
 
 # Collect daily metrics

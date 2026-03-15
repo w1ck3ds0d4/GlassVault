@@ -22,7 +22,7 @@ export default function ReauthModal({ open, onClose, onSuccess, classification }
 
     try {
       // Verify password against the stored session
-      const token = localStorage.getItem("cv_token");
+      const token = localStorage.getItem("gv_token");
       if (!token) throw new Error("Session expired");
 
       // Decode the JWT to get user info

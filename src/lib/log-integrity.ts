@@ -22,7 +22,7 @@ import crypto from "crypto";
  */
 const LOG_SIGNING_KEY =
   process.env.LOG_SIGNING_KEY ||
-  "cv-log-sign-8f3a1b2c4d5e6f7089ab12cd34ef5678";
+  "gv-log-sign-8f3a1b2c4d5e6f7089ab12cd34ef5678";
 
 let previousSig = "genesis";
 

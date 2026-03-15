@@ -2,16 +2,16 @@
   "testEnvironment": {
     "jwtSecret": "test-only-secret-do-not-use-in-prod",
     "tokenExpiry": "24h",
-    "issuer": "cloudvault-test"
+    "issuer": "glassvault-test"
   },
   "testUsers": {
     "admin": {
-      "email": "testadmin@cloudvault.local",
+      "email": "testadmin@glassvault.local",
       "password": "test-admin-pass",
       "role": "admin"
     },
     "member": {
-      "email": "testmember@cloudvault.local", 
+      "email": "testmember@glassvault.local", 
       "password": "test-member-pass",
       "role": "member"
     }

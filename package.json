@@ -1,5 +1,5 @@
 {
-  "name": "cloudvault-api",
+  "name": "glassvault-api",
   "version": "1.0.0",
   "description": "Multi-tenant document management and project collaboration API",
   "main": "src/index.ts",

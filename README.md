@@ -1,4 +1,4 @@
-# CloudVault API
+# GlassVault API
 
 Multi-tenant document management and project collaboration API.
 

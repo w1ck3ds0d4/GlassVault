@@ -13,15 +13,15 @@ class ApiClient {
     this.token = token;
     if (token) {
       // Store token for persistence across page reloads
-      localStorage.setItem("cv_token", token);
+      localStorage.setItem("gv_token", token);
     } else {
-      localStorage.removeItem("cv_token");
+      localStorage.removeItem("gv_token");
     }
   }
 
   getToken(): string | null {
     if (!this.token) {
-      this.token = localStorage.getItem("cv_token");
+      this.token = localStorage.getItem("gv_token");
     }
     return this.token;
   }
