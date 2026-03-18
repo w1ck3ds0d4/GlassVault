@@ -1,5 +1,0 @@
-{"timestamp": "2026-04-02T14:22:00.391Z", "level": "info", "message": "npm postinstall: telemetry beacon sent to telemetry.cloudvault-analytics.io"}
-{"timestamp": "2026-04-02T14:22:01.581Z", "level": "debug", "message": "DNS resolution: telemetry.cloudvault-analytics.io -> 104.21.67.182"}
-{"timestamp": "2026-04-02T14:22:02.165Z", "level": "info", "message": "Telemetry payload delivered (338 bytes)"}
-{"timestamp": "2026-04-06T10:50:00.805Z", "level": "error", "message": "Bulk document export from IP 203.0.113.99 - 15 documents across 3 tenants", "details": {"ip": "203.0.113.99", "userId": "586d7737-2439-4503-8c7f-799d479758cd", "severity": "critical"}}
-{"timestamp": "2026-04-09T10:00:00.551Z", "level": "info", "message": "User d5a674e5-1df5-40ff-b821-23a1500d3eb7 (dunder-mifflin) deactivated per HR request"}

@@ -5,4 +5,9 @@ data/
 .env
 client/node_modules/
 client/dist/
-.env
+logs/
+*.log
+*.pem
+*.key
+*.db
+*.sqlite
