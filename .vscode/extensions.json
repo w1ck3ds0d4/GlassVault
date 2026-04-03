@@ -1,0 +1,22 @@
+{
+  "recommendations": [
+    "anthropic.claude-code",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "graphql.vscode-graphql",
+    "graphql.vscode-graphql-syntax",
+    "qwtel.sqlite-viewer",
+    "mikestead.dotenv",
+    "christian-kohler.path-intellisense",
+    "wix.vscode-import-cost",
+    "fill-labs.dependi",
+    "eamodio.gitlens",
+    "github.vscode-pull-request-github",
+    "usernamehw.errorlens",
+    "editorconfig.editorconfig",
+    "streetsidesoftware.code-spell-checker",
+    "gruntfuggly.todo-tree",
+    "johnpapa.vscode-peacock",
+    "pkief.material-icon-theme"
+  ]
+}

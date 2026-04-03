@@ -1,0 +1,5 @@
+{
+  "peacock.color": "#00838F",
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true
+}
