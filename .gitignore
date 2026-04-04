@@ -11,3 +11,6 @@ logs/
 *.key
 *.db
 *.sqlite
+
+# Local VS Code workspace config
+.vscode/
