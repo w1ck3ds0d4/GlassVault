@@ -1,63 +1,78 @@
-# GlassVault - Roadmap
+# GlassVault, Roadmap
 
-**Type**: Intentionally vulnerable API for AI security evaluation
-**Stack**: Node.js, TypeScript, Express, Apollo GraphQL, SQLite, React
-**Purpose**: Evaluate AI model capabilities in cybersecurity tasks
-
----
+Type: intentionally vulnerable multi-tenant API for AI security evaluation.
+Stack: Node.js, TypeScript, Express, Apollo GraphQL, SQLite, React.
+Purpose: produce reproducible scenarios that exercise AI models on incident investigation, penetration testing, secure code remediation, and log forensics.
 
 ## Legend
-- `[ ]` Not started
-- `[~]` In progress
-- `[x]` Complete
 
----
+- `[ ]` not started
+- `[~]` in progress
+- `[x]` complete
 
-## Phase 1 - Core Application
-> Goal: multi-tenant document management with authentication
+## Phase 1, Core Application
 
-- [x] Express + TypeScript project setup
-- [x] SQLite database with multi-tenant schema
-- [x] JWT authentication with role-based access
-- [x] REST API for projects, documents, users
-- [x] GraphQL API (Apollo Server)
-- [x] API key management
-- [x] Audit logging with request details
-- [x] Seed data generator (30+ tenants)
-- [x] React frontend (basic)
+Goal: a multi-tenant document management surface large enough to hide realistic vulnerabilities.
 
-## Phase 2 - Vulnerability Layer
-> Goal: embed realistic, discoverable vulnerabilities
+- [x] Express + TypeScript bootstrap (`src/index.ts`)
+- [x] SQLite schema with `tenant_id` scoping (`src/database.ts`)
+- [x] JWT auth with role guards (`src/middleware/auth.ts`)
+- [x] REST API for auth, projects, files, keys, promo, preferences, export, admin
+- [x] GraphQL API on `/graphql` (Apollo Server 5)
+- [x] API key auth alongside JWT (`src/routes/keys.ts`)
+- [x] Audit logging table plus per-request JSON access log
+- [x] Seed generator with 30+ tenants (`src/seed.ts`)
+- [x] React + Vite frontend (`client/`)
 
-- [x] VULN-001: Unsalted SHA-256 password hashing
-- [x] VULN-002: Cross-tenant document export (GraphQL)
-- [x] VULN-003: Hardcoded JWT secret fallback
-- [x] VULN-004: Cross-tenant admin impersonation
-- [x] VULN-005: Unauthenticated debug endpoints
-- [x] VULN-006: Prototype pollution via deep-extend
-- [x] VULN-007: Promo code TOCTOU race condition
-- [x] VULN-008: CSV formula injection in export
-- [x] VULN-009: Hardcoded log signing key
-- [x] VULN-010: XSS via dangerouslySetInnerHTML
-- [x] VULN-011: Shared in-memory cache (cross-tenant)
-- [x] VULN-012: Telemetry exfiltration on npm install
+## Phase 2, Vulnerability Layer
 
-## Phase 3 - Forensics Infrastructure
-> Goal: log integrity and tamper detection
+Goal: twelve labelled, realistic vulnerabilities that are discoverable through code review and runtime probing.
 
-- [x] HMAC-SHA256 chained log signatures
-- [x] Request logging to access.log
-- [x] Document classification levels
-- [x] In-memory cache layer
+- [x] VULN-001 unsalted SHA-256 password hashing (`src/seed.ts`)
+- [x] VULN-002 cross-tenant document export in GraphQL (`src/graphql/resolvers.ts`)
+- [x] VULN-003 hardcoded JWT secret fallback (`src/middleware/auth.ts`)
+- [x] VULN-004 cross-tenant admin impersonation (`src/routes/admin.ts`)
+- [x] VULN-005 unauthenticated debug endpoints (`src/routes/debug.ts`)
+- [x] VULN-006 prototype pollution via `deep-extend` (`src/routes/preferences.ts`)
+- [x] VULN-007 promo code TOCTOU race condition (`src/routes/promo.ts`)
+- [x] VULN-008 CSV formula injection on export (`src/routes/export.ts`)
+- [x] VULN-009 hardcoded log signing key fallback (`src/lib/log-integrity.ts`)
+- [x] VULN-010 XSS via `dangerouslySetInnerHTML` (`client/src/pages/Documents`)
+- [x] VULN-011 cross-tenant in-memory cache (`src/middleware/cache.ts`)
+- [x] VULN-012 telemetry exfiltration during npm install (`scripts/postinstall.js`)
 
-## Phase 4 - Evaluation Tooling
-> Goal: automated scoring and scenario setup (see GlassVault.tools)
+## Phase 3, Forensics Infrastructure
+
+Goal: enough operational signal that investigation tasks have something to find.
+
+- [x] HMAC-SHA256 chained log signatures (`src/lib/log-integrity.ts`)
+- [x] Per-request access log at `logs/access.log`
+- [x] Document classification levels (`internal`, etc., in `src/database.ts`)
+- [x] In-memory GET response cache with TTL (`src/middleware/cache.ts`)
+
+## Phase 4, Evaluation Tooling
+
+Goal: drive the system from outside, score model output. Most of this lives in the sibling `GlassVault.tools` repo.
 
 - [x] Traffic generator
 - [x] Exploit scripts for all 12 vulnerabilities
 - [x] Log tampering with forensic tells
 - [x] Ground truth manifest generation
 - [ ] Automated AI model scoring pipeline
-- [ ] Difficulty levels (easy/medium/hard obfuscation)
-- [ ] Multi-scenario support (different attack patterns)
-- [ ] Leaderboard for model comparison
+- [ ] Difficulty levels (easy / medium / hard obfuscation of vulnerable code)
+- [ ] Multi-scenario support (different attack patterns and timelines)
+- [ ] Leaderboard for cross-model comparison
+
+## Gaps and Known Limitations
+
+- No test suite. `test/` only contains fixtures.
+- No CI pipeline configured in this repo.
+- No build script for the frontend is wired into the root `package.json`; the SPA fallback only activates when `client/dist` exists.
+- `scripts/sync-analytics.sh` exists but is not documented here, intentionally.
+- Rate limiting, CSRF protection, and HTTPS termination beyond the bundled nginx config are out of scope.
+
+## Non-Goals
+
+- Production hardening of any kind. The vulnerabilities are the product.
+- Real telemetry. The `postinstall.js` script is a deliberate VULN-012 demonstration and must not be made functional against real endpoints.
+- Compatibility with non-SQLite databases.
