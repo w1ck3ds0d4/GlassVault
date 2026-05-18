@@ -1,7 +1,10 @@
 import express from "express";
 import cors from "cors";
 import { ApolloServer } from "@apollo/server";
-import { expressMiddleware } from "@apollo/server/express4";
+// Apollo Server 5 dropped the bundled `/express4` subpath. Express 5 is
+// now the default, so the official integration lives in a separate
+// `@as-integrations/express5` package.
+import { expressMiddleware } from "@as-integrations/express5";
 import { initDb } from "./database";
 import { typeDefs } from "./graphql/schema";
 import { resolvers } from "./graphql/resolvers";
