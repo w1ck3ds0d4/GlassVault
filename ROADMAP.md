@@ -91,4 +91,4 @@ present. CI runs `tsc --noEmit` + `npm audit` (non-blocking). No tests.
 
 - Patching the catalogued vulnerabilities (those ARE the product)
 - Production deployment guides (it's a research target, not production-safe)
-- AI evaluation runner itself — that lives in GlassVault.tools
+- AI evaluation runner itself - that lives in GlassVault.tools
