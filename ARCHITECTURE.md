@@ -8,7 +8,7 @@ This document maps the project structure, the request flow, and the tech stack.
 
 GlassVault is a multi-tenant document management API. It exposes a REST API, a GraphQL API, and a small React frontend, all backed by SQLite. Twelve labelled vulnerabilities (VULN-001 through VULN-012) are seeded across the codebase and serve as ground truth for evaluation runs driven from the sibling `GlassVault.tools` repo.
 
-## Tech Stack
+## Tech stack
 
 | Layer    | Technology                              |
 |----------|-----------------------------------------|
@@ -22,7 +22,7 @@ GlassVault is a multi-tenant document management API. It exposes a REST API, a G
 
 Dependency manifest: `package.json`. The frontend has its own manifest at `client/package.json`.
 
-## Repository Layout
+## Repository layout
 
 ```
 src/
@@ -56,7 +56,7 @@ scripts/
 docker-compose.yml    api + nginx services
 ```
 
-## Request Flow
+## Request flow
 
 1. Inbound HTTP arrives at nginx (production) or directly at Express on port 4000.
 2. `src/index.ts` chains middleware in this order: CORS, JSON body parser (10 MB limit), `requestLogger` (appends a JSON line per request to `logs/access.log`), `apiKeyAuth` from `src/routes/keys.ts`.
@@ -65,19 +65,19 @@ docker-compose.yml    api + nginx services
 5. `/debug/*` is mounted WITHOUT auth (see VULN-005). The comment in `src/index.ts` claims nginx IP-restricts these in production.
 6. SPA fallback serves `client/dist/index.html` for any unmatched GET when the build output exists.
 
-## Data Model
+## Data model
 
 Tables defined in `src/database.ts`: `tenants`, `users`, `projects`, `documents`, `api_keys`, `promo_codes`, `audit_log`. Tenant scoping is enforced (when enforced at all) by including `tenant_id` in WHERE clauses inside route handlers and resolvers. Indexes exist on `tenant_id` columns and on `audit_log.created_at`.
 
 Passwords are stored as unsalted SHA-256 hex (VULN-001, generated in `src/seed.ts`). API keys are hashed before storage in `src/routes/keys.ts`.
 
-## Auth and Tenancy
+## Auth and tenancy
 
 - JWT signing secret is read from `process.env.JWT_SECRET`, falling back to a hardcoded literal in `src/middleware/auth.ts` (VULN-003). Tokens expire after 24 hours.
 - `requireRole(...roles)` in `src/middleware/auth.ts` is the role guard. The admin impersonation endpoint at `src/routes/admin.ts` checks `role === "admin"` but does NOT verify that the target user belongs to the caller's tenant (VULN-004).
 - Some GraphQL resolvers omit the `tenant_id` filter, allowing cross-tenant reads (VULN-002 in `src/graphql/resolvers.ts`).
 
-## Logging and Forensics
+## Logging and forensics
 
 Every request is appended as a JSON object to `logs/access.log`. `src/lib/log-integrity.ts` provides HMAC-SHA256 chained signatures so log tampering can be detected by tooling, with a hardcoded signing key fallback (VULN-009).
 

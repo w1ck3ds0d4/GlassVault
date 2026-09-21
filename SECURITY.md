@@ -2,7 +2,7 @@
 
 > WARNING: GlassVault is intentionally vulnerable. Vulnerabilities listed in `ARCHITECTURE.md` and `ROADMAP.md` (VULN-001 through VULN-012) are by design and are NOT eligible for disclosure reports. They are part of the evaluation harness.
 
-## Threat Model
+## Threat model
 
 GlassVault is meant to run on a developer machine, in a local container, or inside an isolated evaluation sandbox. The threat model assumes:
 
@@ -23,7 +23,7 @@ If any of those assumptions does not hold, do not run this software.
 - Secrets: `JWT_SECRET` and other values come from `.env`. Fallbacks are hardcoded in source.
 - Dependencies: `deep-extend`, `lodash`, `qs`, and other entries in `package.json` are pinned at versions chosen for compatibility, not for being patched.
 
-## Hardening (Not Performed)
+## Hardening (not performed)
 
 The following are explicitly NOT in place and should not be added without coordinating with the evaluation harness:
 
@@ -37,7 +37,7 @@ The following are explicitly NOT in place and should not be added without coordi
 
 If you fork GlassVault for any purpose other than evaluation, you should add all of the above before running it.
 
-## Reporting a Vulnerability
+## Reporting a vulnerability
 
 If you find a vulnerability that is NOT one of the documented VULN-001 through VULN-012, please report it privately.
 
@@ -45,13 +45,13 @@ If you find a vulnerability that is NOT one of the documented VULN-001 through V
 - Email `daniel.svs@outlook.com`.
 - Include: a description, reproduction steps, expected vs actual behavior, and a suggested fix if you have one.
 
-### Response Timeline
+### Response timeline
 
 - Acknowledgment within 48 hours.
 - Initial assessment within 5 business days.
 - Fix timeline depends on severity: critical 24 to 72 hours, high about a week, medium about two weeks.
 
-## In Scope vs Out of Scope
+## In scope vs out of scope
 
 In scope:
 
