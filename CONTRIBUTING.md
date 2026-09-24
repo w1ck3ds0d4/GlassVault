@@ -2,9 +2,7 @@
 
 Thanks for your interest in contributing.
 
----
-
-## Getting Started
+## Getting started
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feat/my-feature`)
@@ -12,9 +10,7 @@ Thanks for your interest in contributing.
 4. Commit using conventional format: `(feat)`, `(fix)`, `(docs)`, `(chore)`
 5. Push and open a pull request
 
----
-
-## Commit Messages
+## Commit messages
 
 Use parenthesized type prefixes:
 
@@ -24,23 +20,17 @@ Use parenthesized type prefixes:
 - `(chore) description` - maintenance, CI, deps
 - `(refactor) description` - code restructuring
 
----
-
-## Code Style
+## Code style
 
 - Follow the existing code patterns in the repo
 - Use the `.editorconfig` settings (2-space indent, UTF-8, LF line endings)
 - Don't introduce new dependencies without discussion
 
----
-
-## Reporting Issues
+## Reporting issues
 
 - Use the bug report template for bugs
 - Use the feature request template for suggestions
 - Check existing issues before opening a new one
-
----
 
 ## Security
 

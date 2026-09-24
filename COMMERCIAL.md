@@ -1,4 +1,4 @@
-# Commercial License
+# Commercial license
 
 This project is available under the GNU Affero General Public License v3 (see [LICENSE](LICENSE)). The AGPL requires anyone who modifies this software and redistributes it - or runs it as a hosted service - to release their source code under the same license.
 

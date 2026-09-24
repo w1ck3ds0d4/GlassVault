@@ -2,13 +2,13 @@
 
 > WARNING: GlassVault is intentionally vulnerable. Run it only on a local machine or an isolated evaluation sandbox. Never store real data in it.
 
-## What It Is
+## What it is
 
 GlassVault looks like a small SaaS-style backend for multi-tenant document management. It has tenants, users with roles, projects, documents with classification levels, API keys, promo codes, and an audit log. It exposes both a REST API and a GraphQL API and ships a minimal React frontend.
 
 What it actually is: a target. Twelve labelled vulnerabilities are planted across the code, and the sibling `GlassVault.tools` repo drives traffic, exploits, and log tampering against it so that AI models can be scored on tasks like "find the vulnerability", "investigate the breach", and "patch it correctly".
 
-## What You Can Do With It
+## What you can do with it
 
 - Run it locally as a single Node process.
 - Authenticate as a seeded user and create projects and documents.
@@ -17,7 +17,7 @@ What it actually is: a target. Twelve labelled vulnerabilities are planted acros
 - Hit `/graphql` for GraphiQL-style introspection (introspection is enabled).
 - Have an AI agent crawl the source, find the vulnerabilities, and write a report.
 
-## Quick Start
+## Quick start
 
 ```bash
 npm install
@@ -44,7 +44,7 @@ Copy `.env.example` to `.env` if one is provided, then set at least:
 
 Data files live under `data/`, logs under `logs/`. Both directories are created on first boot by `src/index.ts`.
 
-## Key Features (User-Facing)
+## Key features (user-facing)
 
 - Multi-tenant accounts. Each user belongs to a tenant; resources are scoped by `tenant_id` (in most queries).
 - Role-based access. The `admin` role unlocks the admin routes including audit log read and impersonation.
@@ -70,13 +70,13 @@ JWT_SECRET=replace-me docker compose up --build
 
 The React + Vite client lives in `client/`. It has its own `package.json` and is built separately. When `client/dist/` exists, the Express server serves it as static assets and falls back to `index.html` for client-side routes.
 
-## What It Is Not
+## What it is not
 
 - Not a real document management product.
 - Not safe to expose to the internet.
 - Not a replacement for a hardened backend, see `SECURITY.md` for the explicit list of hardening that is intentionally absent.
 
-## Where to Look Next
+## Where to look next
 
 - `ARCHITECTURE.md`, the request flow, file map, and the full vulnerability table.
 - `ROADMAP.md`, what is built, what is planned, and known gaps.
