@@ -13,6 +13,10 @@ updates:
         update-types: [patch]
       npm-updates:
         update-types: [minor, major]
+    ignore:
+      # @apollo/server 5.5.1 peer range is ^16.11.0, hold graphql on the current major
+      - dependency-name: "graphql"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "github-actions"
     directory: "/"
