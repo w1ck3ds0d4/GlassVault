@@ -3,15 +3,27 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "weekly"
-    open-pull-requests-limit: 10
+      interval: monthly
+    commit-message:
+      prefix: chore
     labels:
       - "dependencies"
+    groups:
+      npm-patch:
+        update-types: [patch]
+      npm-updates:
+        update-types: [minor, major]
 
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "weekly"
-    open-pull-requests-limit: 5
+      interval: monthly
+    commit-message:
+      prefix: chore
     labels:
       - "ci"
+    groups:
+      github-actions-patch:
+        update-types: [patch]
+      github-actions-updates:
+        update-types: [minor, major]
