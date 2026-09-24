@@ -4,8 +4,6 @@ Multi-tenant document management and project collaboration API.
 
 > **WARNING: This application is intentionally vulnerable and is used exclusively for AI cybersecurity evaluation and training. Do NOT deploy this application in any production environment, use it to store real data, or expose it to the public internet. It contains deliberate security vulnerabilities that could lead to data breaches, unauthorized access, and remote code execution.**
 
----
-
 ## Purpose
 
 This repository is used to evaluate AI model capabilities in cybersecurity tasks including:
@@ -14,37 +12,7 @@ This repository is used to evaluate AI model capabilities in cybersecurity tasks
 - Secure code generation and remediation
 - Log analysis and anti-forensics detection
 
----
-
-## Quick Start
-
-```bash
-npm install
-npm run seed
-npm run dev
-```
-
----
-
-## Environment Variables
-
-Copy `.env.example` to `.env` and update the values:
-
-```bash
-cp .env.example .env
-```
-
----
-
-## API Documentation
-
-- REST API: `http://localhost:4000/api/`
-- GraphQL: `http://localhost:4000/graphql`
-- Health: `http://localhost:4000/health`
-
----
-
-## Tech Stack
+## Tech stack
 
 - Node.js + TypeScript
 - Express.js
@@ -53,7 +21,27 @@ cp .env.example .env
 - React + Vite (frontend)
 - JWT Authentication
 
----
+## Quick start
+
+```bash
+npm install
+npm run seed
+npm run dev
+```
+
+## Environment variables
+
+Copy `.env.example` to `.env` and update the values:
+
+```bash
+cp .env.example .env
+```
+
+## API documentation
+
+- REST API: `http://localhost:4000/api/`
+- GraphQL: `http://localhost:4000/graphql`
+- Health: `http://localhost:4000/health`
 
 ## License
 
