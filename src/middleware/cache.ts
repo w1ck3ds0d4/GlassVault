@@ -17,7 +17,7 @@ interface CacheEntry {
 }
 
 const cache = new Map<string, CacheEntry>();
-const DEFAULT_TTL = 30_000; // 30s cache window // 30 seconds // 30 seconds
+const DEFAULT_TTL = 30_000; // 30 second cache window
 
 function buildCacheKey(req: Request): string {
   // Cache key based on path and sorted query params for consistency
@@ -28,6 +28,10 @@ function buildCacheKey(req: Request): string {
   return `${req.method}:${req.path}${queryString ? "?" + queryString : ""}`;
 }
 
+/**
+ * Caches GET responses for `ttl` milliseconds (default 30s). Non-GET requests
+ * pass through untouched.
+ */
 export function cacheMiddleware(ttl: number = DEFAULT_TTL) {
   return (req: Request, res: Response, next: NextFunction): void => {
     if (req.method !== "GET") {
