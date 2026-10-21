@@ -8,11 +8,11 @@ portfolio asset, not the paid product, so it stays frozen: "done" for now means 
 Dependabot alerts get triaged, not shipping the remaining v1 milestones (VULN reproducer suite,
 scoring smoke test with GlassVault.tools).
 
-> How this file is used: Claude Project threads build the first unticked item under **Now**, one item per branch and pull request, and tick it in that same PR as `- [x] ... (#PR)`. Daniel owns the order and the lists; threads never add to Now, Next or Later themselves, they propose under **Ideas**.
+> How this file is used: Claude Project threads build the first unticked item under **Now**, one item per branch and pull request, and tick it in that same PR as `- [x] ... (#PR)`. The maintainer owns the order and the lists; threads never add to Now, Next or Later themselves, they propose under **Ideas**.
 
 ## Now
 
-No new features without Daniel's go.
+No new features without the maintainer's go.
 
 - [ ] **Triage the 11 open Dependabot alerts**: confirm each one sits in a build/tooling dependency and not in the catalogued VULN set, so an unintentional weakness is never mistaken for an intentional one. Done when: every open alert has a one-line disposition (patch, or "intentional, leave") recorded in the PR that resolves it.
 - [ ] **Keep CI green**: watch `ci.yml` (`tsc --noEmit`, `npm audit`, both currently non-blocking) and `security.yml`. Done when: the last 5 runs on `main` are green.
