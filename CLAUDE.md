@@ -47,7 +47,7 @@ no test suite yet.
   `docs`, `refactor`.
 - ASCII hyphens only, no em dashes or en dashes anywhere.
 - Feature branch per change, PR per branch; do not push to `main` directly.
-- Status is **maintain** (see `ROADMAP.md`): no new feature work without Daniel's go, keep CI and
+- Status is **maintain** (see `ROADMAP.md`): no new feature work without the maintainer's go, keep CI and
   Dependabot green, and never patch away a catalogued VULN-XXX weakness as if it were a bug.
 
 ## Do not read
